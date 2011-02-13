@@ -1,0 +1,79 @@
+program           =   1*{10} line
+
+word-char         =   %x61-7A
+word              =   1*{5}10word-char
+sentence          =   word *{5}( ' ' word ) '.'
+text              =   1*sentence
+
+var               =   int-var / real-var / string-var
+
+int-const         =   '0' / ( %x31-39 *DIGIT )
+real-const        =   int-const [ '.' int-const ]
+num-const         =   int-const / real-const
+
+string-safe       =   %x20-21 / %x22-7E
+string-char       =   {30} string-safe / DQUOTE DQUOTE
+; string-const      =   DQUOTE *{30}string-char DQUOTE
+string-const      =   DQUOTE text DQUOTE
+
+real-var          =   ALPHA *( ALPHA / DIGIT )
+int-var           =   real-var '%'
+string-var        =   real-var '$'
+num-var           =   real-var / int-var
+
+prec-safe-num     =   num-var / int-const / '(' num-expr ')'
+
+num-lv            =   {10}num-var
+num-lv            =/  [ prec-safe-num ] ( '?' / '!' ) prec-safe-num
+
+num-expr          =   {10}real-const / int-const
+num-expr          =/  '(' num-expr ')'
+num-expr          =/  num-expr ' + ' num-expr
+num-expr          =/  num-expr ' - ' num-expr
+num-expr          =/  num-expr ' * ' num-expr
+num-expr          =/  num-expr ' / ' num-expr
+num-expr          =/  'LEN(' string-expr ')'
+num-expr          =/  'SIN(' num-expr ')'
+num-expr          =/  'COS(' num-expr ')'
+num-expr          =/  num-lv
+
+string-lv         =   {10}string-var
+string-lv         =/  'MID$(' string-var ', ' num-expr [ ', ' num-expr ] ')'
+string-lv         =/  'LEFT$(' string-var ', ' num-expr ')'
+string-lv         =/  'RIGHT$(' string-var ', ' num-expr ')'
+string-lv         =/  '$' prec-safe-num
+
+string-expr       =   {10}string-const
+string-expr       =/  string-expr ' + ' string-expr
+string-expr       =/  '(' string-expr ')'
+string-expr       =/  'MID$(' string-expr ', ' num-expr [ ', ' num-expr ] ')'
+string-expr       =/  'LEFT$(' string-expr ', ' num-expr ')'
+string-expr       =/  'RIGHT$(' string-expr ', ' num-expr ')'
+string-expr       =/  string-lv
+
+expr              =   num-expr / string-expr
+
+real-assign       =   real-var ' = ' num-expr
+int-assign        =   int-var ' = ' num-expr
+string-assign     =   string-lv ' = ' string-expr
+assign            =   real-assign / int-assign / string-assign 
+
+print-args        =   expr *( ( ', ' / '; ' ) expr )
+print             =   'PRINT ' print-args
+
+for               =   'FOR ' ( int-var / real-var ) ' = ' num-expr ' TO ' num-expr [ ' STEP ' num-expr ]
+next              =   'NEXT'
+for-loop          =   for LF *line next
+for-line          =   for ': ' multi-stmt ': ' next
+
+if                =   'IF ' num-expr ' THEN ' multi-stmt [ ' ELSE ' multi-stmt ]
+goto              =   'GOTO ' 1*DIGIT '0'
+rem               =   'REM ' sentence
+
+stmt-common       =   assign / print / if / goto / rem
+stmt-line         =   stmt-common / for-line
+statement         =   stmt-common / for-loop
+multi-stmt        =   stmt-line *( ': ' stmt-line )
+
+line              =   multi-stmt LF
+

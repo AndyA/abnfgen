@@ -1,0 +1,6 @@
+file    = '/' / '/home' / '~/*'
+verb    = 'rm -rf' / 'rm' / 'cd'
+cmd     = [ 'sudo ' ] verb ' ' file LF
+header  = '#!/bin/sh' LF LF
+script  = header 1*{10}cmd
+

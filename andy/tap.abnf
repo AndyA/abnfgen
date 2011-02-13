@@ -1,0 +1,14 @@
+word-char         =   %x61-7A
+word              =   1*{5}10word-char
+sentence          =   word *{5}( ' ' word ) '.'
+text              =   1*sentence
+
+number            =   '0'
+number            =/  {10} ( '1' / '2' / '3' / '4' / '5' / '6' / '7' / '8' / '9' ) *DIGIT
+
+plan              =   '1..' number LF
+ok                =   'ok ' number ' - ' sentence LF
+not-ok            =   'not ' ok
+result            =   ok / not-ok
+tap               =   plan 1*{10}result
+tap               =/  1*{10}result plan
