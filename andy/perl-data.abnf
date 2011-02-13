@@ -1,0 +1,21 @@
+
+bareword     = [ '-' ] ( ALPHA / '_' ) *( ALPHA / DIGIT / '_' ) 
+
+key          =  string
+key          =/ bareword
+
+escape       =  '\"' / '\n' / '\t' / '\r' / '\x' HEXDIG HEXDIG
+safe-char    =  %x20-21 / %x23-5b / %x5d-7e
+string-char  =  safe-char / escape
+string       =  DQUOTE *string-char DQUOTE
+
+posint       =  '0' / ( %x31-39 *DIGIT )
+number       =  [ '-' ] posint [ '.' 1*DIGIT ] [ 'E' ( '+' / '-' / '' ) posint ]
+
+atom         =  number / string / 'undef'
+value        =  perl / atom
+sequence     =  '[' value *( ', ' value ) ']'
+key-value    =  key ' => ' value
+dictionary   =  '{' key-value *( ', ' key-value ) '}'
+
+perl         =  sequence / dictionary

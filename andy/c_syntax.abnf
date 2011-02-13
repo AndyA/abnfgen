@@ -1,277 +1,277 @@
-line-end                = ';' LF
-space                   = ' '
+line-end                    =  ';' LF
+space                       =  ' '
 
-int-const               = 1*DIGIT / '0x' 1*HEXDIG
+int-const                   =  1*DIGIT / '0x' 1*HEXDIG
 
-char-const              = "'" VCHAR "'"
+char-const                  =  "'" VCHAR "'"
 
-float-const             = 1*DIGIT [ '.' 1*DIGIT ]
+float-const                 =  1*DIGIT [ '.' 1*DIGIT ]
 
-id-char                 = {26} ALPHA / {3} DIGIT / '_'
+id-char                     =  {26} ALPHA / {3} DIGIT / '_'
 
-id                      = ( {26} ALPHA / '_' ) *{10}id-char 
+id                          =  ( {26} ALPHA / '_' ) *{10}id-char 
 
-string                  = DQUOTE *ALPHA DQUOTE
+string                      =  DQUOTE *ALPHA DQUOTE
 
-enumeration-const       = id
+enumeration-const           =  id
 
-assignment-operator        =  '=' / '*=' / '/=' / '%=' / '+=' / '-=' / '<<='
-assignment-operator        =/ '>>=' / '&=' / '^=' / '|='
+assignment-operator         =  '=' / '*=' / '/=' / '%=' / '+=' / '-=' / '<<='
+assignment-operator         =/ '>>=' / '&=' / '^=' / '|='
 
-type-qualifier             =  'const' / 'volatile'
+type-qualifier              =  'const' / 'volatile'
 
-enumerator                 =  id
-enumerator                 =/ id '=' const-exp
+enumerator                  =  id
+enumerator                  =/ id '=' const-exp
 
-enumerator-list            =  enumerator
-enumerator-list            =/ enumerator-list ',' enumerator
+enumerator-list             =  enumerator
+enumerator-list             =/ enumerator-list ',' enumerator
 
-enum-spec                  =  'enum' id '{' enumerator-list '}'
-enum-spec                  =/ 'enum'	'{' enumerator-list '}'
-enum-spec                  =/ 'enum' id
+enum-spec                   =  'enum' id '{' enumerator-list '}'
+enum-spec                   =/ 'enum'	'{' enumerator-list '}'
+enum-spec                   =/ 'enum' id
 
-id-list                    =  id
-id-list                    =/ id-list ',' id
+id-list                     =  id
+id-list                     =/ id-list ',' id
 
-storage-class-spec         =  'auto' / 'register' / 'static' / 'extern' / 'typedef'
+storage-class-spec          =  'auto' / 'register' / 'static' / 'extern' / 'typedef'
 
-decl-specs                 =  storage-class-spec space decl-specs
-decl-specs                 =/ storage-class-spec
-decl-specs                 =/ type-spec space decl-specs
-decl-specs                 =/ type-spec
-decl-specs                 =/ type-qualifier space decl-specs
-decl-specs                 =/ type-qualifier
+decl-specs                  =  storage-class-spec space decl-specs
+decl-specs                  =/ storage-class-spec
+decl-specs                  =/ type-spec space decl-specs
+decl-specs                  =/ type-spec
+decl-specs                  =/ type-qualifier space decl-specs
+decl-specs                  =/ type-qualifier
 
-param-decl                 =  decl-specs declarator
-param-decl                 =/ decl-specs abstract-declarator
-param-decl                 =/ decl-specs
+param-decl                  =  decl-specs declarator
+param-decl                  =/ decl-specs abstract-declarator
+param-decl                  =/ decl-specs
 
-param-list                 =  param-decl
-param-list                 =/ param-list ',' param-decl
+param-list                  =  param-decl
+param-list                  =/ param-list ',' param-decl
 
-param-type-list            =  param-list
-param-type-list            =/ param-list ',' '...'
+param-type-list             =  param-list
+param-type-list             =/ param-list ',' '...'
 
-direct-declarator          =  id
-direct-declarator          =/ '(' declarator ')'
-direct-declarator          =/ direct-declarator '[' const-exp ']'
-direct-declarator          =/ direct-declarator '['		']'
-direct-declarator          =/ direct-declarator '(' param-type-list ')'
-direct-declarator          =/ direct-declarator '(' id-list ')'
-direct-declarator          =/ direct-declarator '('		')'
+direct-declarator           =  id
+direct-declarator           =/ '(' declarator ')'
+direct-declarator           =/ direct-declarator '[' const-exp ']'
+direct-declarator           =/ direct-declarator '['		']'
+direct-declarator           =/ direct-declarator '(' param-type-list ')'
+direct-declarator           =/ direct-declarator '(' id-list ')'
+direct-declarator           =/ direct-declarator '('		')'
 
-type-qualifier-list        =  type-qualifier
-type-qualifier-list        =/ type-qualifier-list type-qualifier
+type-qualifier-list         =  type-qualifier
+type-qualifier-list         =/ type-qualifier-list type-qualifier
 
-pointer                    =  '*' type-qualifier-list
-pointer                    =/ '*'
-pointer                    =/ '*' type-qualifier-list pointer
-pointer                    =/ '*'			pointer
+pointer                     =  '*' type-qualifier-list
+pointer                     =/ '*'
+pointer                     =/ '*' type-qualifier-list pointer
+pointer                     =/ '*'			pointer
 
-declarator                 =  pointer direct-declarator
-declarator                 =/ direct-declarator
+declarator                  =  pointer direct-declarator
+declarator                  =/ direct-declarator
 
-struct-declarator          =  declarator
-struct-declarator          =/ declarator ':' const-exp
-struct-declarator          =/ ':' const-exp
+struct-declarator           =  declarator
+struct-declarator           =/ declarator ':' const-exp
+struct-declarator           =/ ':' const-exp
 
-struct-declarator-list     =  struct-declarator
-struct-declarator-list     =/ struct-declarator-list ',' struct-declarator
+struct-declarator-list      =  struct-declarator
+struct-declarator-list      =/ struct-declarator-list ',' struct-declarator
 
-struct-decl                =  spec-qualifier-list space struct-declarator-list line-end
+struct-decl                 =  spec-qualifier-list space struct-declarator-list line-end
 
-struct-decl-list           =  struct-decl
-struct-decl-list           =/ struct-decl-list struct-decl
+struct-decl-list            =  struct-decl
+struct-decl-list            =/ struct-decl-list struct-decl
 
-struct-or-union            =  'struct' / 'union'
+struct-or-union             =  'struct' / 'union'
 
-struct-or-union-spec       =  struct-or-union id '{' struct-decl-list '}'
-struct-or-union-spec       =/ struct-or-union	'{' struct-decl-list '}'
-struct-or-union-spec       =/ struct-or-union id
+struct-or-union-spec        =  struct-or-union id '{' struct-decl-list '}'
+struct-or-union-spec        =/ struct-or-union	'{' struct-decl-list '}'
+struct-or-union-spec        =/ struct-or-union id
 
-typedef-name               =  id
+typedef-name                =  id
 
-type-spec                  =  'void' / 'char' / 'short' / 'int' / 'long' / 'float'
-type-spec                  =/ 'double' / 'signed' / 'unsigned'
-type-spec                  =/ struct-or-union-spec
-type-spec                  =/ enum-spec
-type-spec                  =/ typedef-name
+type-spec                   =  'void' / 'char' / 'short' / 'int' / 'long' / 'float'
+type-spec                   =/ 'double' / 'signed' / 'unsigned'
+type-spec                   =/ struct-or-union-spec
+type-spec                   =/ enum-spec
+type-spec                   =/ typedef-name
 
-spec-qualifier-list        =  type-spec space spec-qualifier-list
-spec-qualifier-list        =/ type-spec
-spec-qualifier-list        =/ type-qualifier space spec-qualifier-list
-spec-qualifier-list        =/ type-qualifier
-
-type-name                  =  spec-qualifier-list space abstract-declarator
-type-name                  =/ spec-qualifier-list
-
-cast-exp                   =  unary-exp
-cast-exp                   =/ '(' type-name ')' cast-exp
-
-argument-exp-list          =  assignment-exp
-argument-exp-list          =/ argument-exp-list ',' assignment-exp
-
-const                      =  int-const
-const                      =/ char-const
-const                      =/ float-const
-const                      =/ enumeration-const
-
-primary-exp                =  id
-primary-exp                =/ const
-primary-exp                =/ string
-primary-exp                =/ '(' exp ')'
-
-postfix-exp                =  primary-exp
-postfix-exp                =/ postfix-exp '[' exp ']'
-postfix-exp                =/ postfix-exp '(' argument-exp-list ')'
-postfix-exp                =/ postfix-exp '('			')'
-postfix-exp                =/ postfix-exp '.' id
-postfix-exp                =/ postfix-exp '->' id
-postfix-exp                =/ postfix-exp '++'
-postfix-exp                =/ postfix-exp '--'
-
-unary-operator             =  '&' / '*' / '+' / '-' / '~' / '!'
-
-unary-exp                  =  postfix-exp
-unary-exp                  =/ '++' unary-exp
-unary-exp                  =/ '--' unary-exp
-unary-exp                  =/ unary-operator cast-exp
-unary-exp                  =/ 'sizeof' unary-exp
-unary-exp                  =/ 'sizeof' '(' type-name ')'
-
-assignment-exp             =  conditional-exp
-assignment-exp             =/ unary-exp assignment-operator assignment-exp
-
-exp                        =  assignment-exp
-exp                        =/ exp ',' assignment-exp
-
-mult-exp                   =  cast-exp
-mult-exp                   =/ mult-exp '*' cast-exp
-mult-exp                   =/ mult-exp '/' cast-exp
-mult-exp                   =/ mult-exp '%' cast-exp
-
-additive-exp               =  mult-exp
-additive-exp               =/ additive-exp '+' mult-exp
-additive-exp               =/ additive-exp '-' mult-exp
-
-shift-expression           =  additive-exp
-shift-expression           =/ shift-expression '<<' additive-exp
-shift-expression           =/ shift-expression '>>' additive-exp
-
-relational-exp             =  shift-expression
-relational-exp             =/ relational-exp '<' shift-expression
-relational-exp             =/ relational-exp '>' shift-expression
-relational-exp             =/ relational-exp '<=' shift-expression
-relational-exp             =/ relational-exp '>=' shift-expression
-
-equality-exp               =  relational-exp
-equality-exp               =/ equality-exp '==' relational-exp
-equality-exp               =/ equality-exp '!=' relational-exp
-
-and-exp                    =  equality-exp
-and-exp                    =/ and-exp '&' equality-exp
-
-exclusive-or-exp           =  and-exp
-exclusive-or-exp           =/ exclusive-or-exp '^' and-exp
-
-inclusive-or-exp           =  exclusive-or-exp
-inclusive-or-exp           =/ inclusive-or-exp '|' exclusive-or-exp
-
-logical-and-exp            =  inclusive-or-exp
-logical-and-exp            =/ logical-and-exp '&&' inclusive-or-exp
-
-logical-or-exp             =  logical-and-exp
-logical-or-exp             =/ logical-or-exp '||' logical-and-exp
-
-conditional-exp            =  logical-or-exp
-conditional-exp            =/ logical-or-exp '?' exp ':' conditional-exp
-
-const-exp                  =  conditional-exp
-
-direct-abstract-declarator =  '(' abstract-declarator ')'
-direct-abstract-declarator =/ direct-abstract-declarator '[' const-exp ']'
-direct-abstract-declarator =/ '[' const-exp ']'
-direct-abstract-declarator =/ direct-abstract-declarator '['	']'
-direct-abstract-declarator =/ '['	']'
-direct-abstract-declarator =/ direct-abstract-declarator '(' param-type-list ')'
-direct-abstract-declarator =/ '(' param-type-list ')'
-direct-abstract-declarator =/ direct-abstract-declarator '('		')'
-direct-abstract-declarator =/ '('		')'
-
-abstract-declarator        =  pointer
-abstract-declarator        =/ pointer direct-abstract-declarator
-abstract-declarator        =/ direct-abstract-declarator
-
-initializer-list           =  initializer
-initializer-list           =/ initializer-list ',' initializer
-
-initializer                =  assignment-exp
-initializer                =/ '{' initializer-list '}'
-initializer                =/ '{' initializer-list ',' '}'
-
-init-declarator            =  declarator
-init-declarator            =/ declarator '=' initializer
-
-init-declarator-list       =  init-declarator
-init-declarator-list       =/ init-declarator-list ',' init-declarator
-
-decl                       =  decl-specs init-declarator-list line-end
-decl                       =/ decl-specs			line-end
-
-decl-list                  =  decl
-decl-list                  =/ decl-list decl
-
-exp-stat                   =  exp line-end
-exp-stat                   =/ line-end
-
-iteration-stat             =  'while' '(' exp ')' stat
-iteration-stat             =/ 'do' stat 'while' '(' exp ')' line-end
-iteration-stat             =/ 'for' '(' exp ';' exp ';' exp ')' stat
-iteration-stat             =/ 'for' '(' exp ';' exp ';'	')' stat
-iteration-stat             =/ 'for' '(' exp ';'	';' exp ')' stat
-iteration-stat             =/ 'for' '(' exp ';'	';'	')' stat
-iteration-stat             =/ 'for' '('	';' exp ';' exp ')' stat
-iteration-stat             =/ 'for' '('	';' exp ';'	')' stat
-iteration-stat             =/ 'for' '('	';'	';' exp ')' stat
-iteration-stat             =/ 'for' '('	';'	';'	')' stat
-
-jump-stat                  =  'goto' space id line-end
-jump-stat                  =/ 'continue' line-end
-jump-stat                  =/ 'break' line-end
-jump-stat                  =/ 'return' space exp line-end
-jump-stat                  =/ 'return'	line-end
-
-labeled-stat               =  id ':' stat
-labeled-stat               =/ 'case' space const-exp ':' stat
-labeled-stat               =/ 'default' ':' stat
-
-selection-stat             =  'if' '(' exp ')' stat
-selection-stat             =/ 'if' '(' exp ')' stat 'else' stat
-selection-stat             =/ 'switch' '(' exp ')' stat
-
-stat                       =  labeled-stat
-stat                       =/ exp-stat
-stat                       =/ compound-stat
-stat                       =/ selection-stat
-stat                       =/ iteration-stat
-stat                       =/ jump-stat
-
-stat-list                  =  stat
-stat-list                  =/ stat-list stat
-
-compound-stat              =  '{' decl-list stat-list '}'
-compound-stat              =/ '{'		stat-list '}'
-compound-stat              =/ '{' decl-list		'}'
-compound-stat              =/ '{'			'}'
-
-function-definition        =  decl-specs declarator decl-list compound-stat
-function-definition        =/ declarator decl-list compound-stat
-function-definition        =/ decl-specs declarator		compound-stat
-function-definition        =/ declarator 	compound-stat
-
-external-decl              =  function-definition
-external-decl              =/ decl
-
-translation-unit           =  external-decl
-translation-unit           =/ translation-unit external-decl
+spec-qualifier-list         =  type-spec space spec-qualifier-list
+spec-qualifier-list         =/ type-spec
+spec-qualifier-list         =/ type-qualifier space spec-qualifier-list
+spec-qualifier-list         =/ type-qualifier
+
+type-name                   =  spec-qualifier-list space abstract-declarator
+type-name                   =/ spec-qualifier-list
+
+cast-exp                    =  unary-exp
+cast-exp                    =/ '(' type-name ')' cast-exp
+
+argument-exp-list           =  assignment-exp
+argument-exp-list           =/ argument-exp-list ',' assignment-exp
+
+const                       =  int-const
+const                       =/ char-const
+const                       =/ float-const
+const                       =/ enumeration-const
+
+primary-exp                 =  id
+primary-exp                 =/ const
+primary-exp                 =/ string
+primary-exp                 =/ '(' exp ')'
+
+postfix-exp                 =  primary-exp
+postfix-exp                 =/ postfix-exp '[' exp ']'
+postfix-exp                 =/ postfix-exp '(' argument-exp-list ')'
+postfix-exp                 =/ postfix-exp '('			')'
+postfix-exp                 =/ postfix-exp '.' id
+postfix-exp                 =/ postfix-exp '->' id
+postfix-exp                 =/ postfix-exp '++'
+postfix-exp                 =/ postfix-exp '--'
+
+unary-operator              =  '&' / '*' / '+' / '-' / '~' / '!'
+
+unary-exp                   =  postfix-exp
+unary-exp                   =/ '++' unary-exp
+unary-exp                   =/ '--' unary-exp
+unary-exp                   =/ unary-operator cast-exp
+unary-exp                   =/ 'sizeof' unary-exp
+unary-exp                   =/ 'sizeof' '(' type-name ')'
+
+assignment-exp              =  conditional-exp
+assignment-exp              =/ unary-exp assignment-operator assignment-exp
+
+exp                         =  assignment-exp
+exp                         =/ exp ',' assignment-exp
+
+mult-exp                    =  cast-exp
+mult-exp                    =/ mult-exp '*' cast-exp
+mult-exp                    =/ mult-exp '/' cast-exp
+mult-exp                    =/ mult-exp '%' cast-exp
+
+additive-exp                =  mult-exp
+additive-exp                =/ additive-exp '+' mult-exp
+additive-exp                =/ additive-exp '-' mult-exp
+
+shift-expression            =  additive-exp
+shift-expression            =/ shift-expression '<<' additive-exp
+shift-expression            =/ shift-expression '>>' additive-exp
+
+relational-exp              =  shift-expression
+relational-exp              =/ relational-exp '<' shift-expression
+relational-exp              =/ relational-exp '>' shift-expression
+relational-exp              =/ relational-exp '<=' shift-expression
+relational-exp              =/ relational-exp '>=' shift-expression
+
+equality-exp                =  relational-exp
+equality-exp                =/ equality-exp '==' relational-exp
+equality-exp                =/ equality-exp '!=' relational-exp
+
+and-exp                     =  equality-exp
+and-exp                     =/ and-exp '&' equality-exp
+
+exclusive-or-exp            =  and-exp
+exclusive-or-exp            =/ exclusive-or-exp '^' and-exp
+
+inclusive-or-exp            =  exclusive-or-exp
+inclusive-or-exp            =/ inclusive-or-exp '|' exclusive-or-exp
+
+logical-and-exp             =  inclusive-or-exp
+logical-and-exp             =/ logical-and-exp '&&' inclusive-or-exp
+
+logical-or-exp              =  logical-and-exp
+logical-or-exp              =/ logical-or-exp '||' logical-and-exp
+
+conditional-exp             =  logical-or-exp
+conditional-exp             =/ logical-or-exp '?' exp ':' conditional-exp
+
+const-exp                   =  conditional-exp
+
+direct-abstract-declarator  =  '(' abstract-declarator ')'
+direct-abstract-declarator  =/ direct-abstract-declarator '[' const-exp ']'
+direct-abstract-declarator  =/ '[' const-exp ']'
+direct-abstract-declarator  =/ direct-abstract-declarator '['	']'
+direct-abstract-declarator  =/ '['	']'
+direct-abstract-declarator  =/ direct-abstract-declarator '(' param-type-list ')'
+direct-abstract-declarator  =/ '(' param-type-list ')'
+direct-abstract-declarator  =/ direct-abstract-declarator '('		')'
+direct-abstract-declarator  =/ '('		')'
+
+abstract-declarator         =  pointer
+abstract-declarator         =/ pointer direct-abstract-declarator
+abstract-declarator         =/ direct-abstract-declarator
+
+initializer-list            =  initializer
+initializer-list            =/ initializer-list ',' initializer
+
+initializer                 =  assignment-exp
+initializer                 =/ '{' initializer-list '}'
+initializer                 =/ '{' initializer-list ',' '}'
+
+init-declarator             =  declarator
+init-declarator             =/ declarator '=' initializer
+
+init-declarator-list        =  init-declarator
+init-declarator-list        =/ init-declarator-list ',' init-declarator
+
+decl                        =  decl-specs init-declarator-list line-end
+decl                        =/ decl-specs			line-end
+
+decl-list                   =  decl
+decl-list                   =/ decl-list decl
+
+exp-stat                    =  exp line-end
+exp-stat                    =/ line-end
+
+iteration-stat              =  'while' '(' exp ')' stat
+iteration-stat              =/ 'do' stat 'while' '(' exp ')' line-end
+iteration-stat              =/ 'for' '(' exp ';' exp ';' exp ')' stat
+iteration-stat              =/ 'for' '(' exp ';' exp ';'	')' stat
+iteration-stat              =/ 'for' '(' exp ';'	';' exp ')' stat
+iteration-stat              =/ 'for' '(' exp ';'	';'	')' stat
+iteration-stat              =/ 'for' '('	';' exp ';' exp ')' stat
+iteration-stat              =/ 'for' '('	';' exp ';'	')' stat
+iteration-stat              =/ 'for' '('	';'	';' exp ')' stat
+iteration-stat              =/ 'for' '('	';'	';'	')' stat
+
+jump-stat                   =  'goto' space id line-end
+jump-stat                   =/ 'continue' line-end
+jump-stat                   =/ 'break' line-end
+jump-stat                   =/ 'return' space exp line-end
+jump-stat                   =/ 'return'	line-end
+
+labeled-stat                =  id ':' stat
+labeled-stat                =/ 'case' space const-exp ':' stat
+labeled-stat                =/ 'default' ':' stat
+
+selection-stat              =  'if' '(' exp ')' stat
+selection-stat              =/ 'if' '(' exp ')' stat 'else' stat
+selection-stat              =/ 'switch' '(' exp ')' stat
+
+stat                        =  labeled-stat
+stat                        =/ exp-stat
+stat                        =/ compound-stat
+stat                        =/ selection-stat
+stat                        =/ iteration-stat
+stat                        =/ jump-stat
+
+stat-list                   =  stat
+stat-list                   =/ stat-list stat
+
+compound-stat               =  '{' decl-list stat-list '}'
+compound-stat               =/ '{'		stat-list '}'
+compound-stat               =/ '{' decl-list		'}'
+compound-stat               =/ '{'			'}'
+
+function-definition         =  decl-specs declarator decl-list compound-stat
+function-definition         =/ declarator decl-list compound-stat
+function-definition         =/ decl-specs declarator		compound-stat
+function-definition         =/ declarator 	compound-stat
+
+external-decl               =  function-definition
+external-decl               =/ decl
+
+translation-unit            =  external-decl
+translation-unit            =/ translation-unit external-decl
 

@@ -1,0 +1,19 @@
+word-char     =  %x61-7A
+word          =  1*{5}10word-char
+sentence      =  word *{5}( ' ' word ) '. '
+paragraph     =  1*sentence
+text          =  paragraph *( LF LF paragraph )
+
+tld           =  'com' / 'co.uk' / 'net' / 'org' / 'org.uk'
+domain        =  word '.' tld
+address       =  word '@' domain
+address-list  =  address *( ', ' address )
+
+subject       =  'Subject: ' sentence LF
+to            =  'To: ' address-list LF
+cc            =  'Cc: ' address-list LF
+bcc           =  'Bcc: ' address-list LF
+from          =  'From: ' address LF
+body          =  text
+
+email         =  from to [ cc ] [ bcc ] subject LF body LF

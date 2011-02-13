@@ -1,24 +1,24 @@
-name              =   1*ALPHA
+name            =  1*ALPHA
 
-word-char         =   %x61-7A
-word              =   1*{5}10word-char
-sentence          =   word *{5}( ' ' word ) '.'
-text              =   1*sentence
+word-char       =  %x61-7A
+word            =  1*{5}10word-char
+sentence        =  word *{5}( ' ' word ) '.'
+text            =  1*sentence
 
-attr              =   name '=' DQUOTE word DQUOTE
-attrs             =   *( ' ' attr ) 
+attr            =  name '=' DQUOTE word DQUOTE
+attrs           =  *( ' ' attr ) 
 
-name-tag          =   '<name>' word '</name>'
-value-tag         =   '<value>' word '</value>'
-property-tag      =   '<property>' name-tag value-tag '</property>'
-properties-tag    =   '<properties>' *property-tag '</properties>'
+name-tag        =  '<name>' word '</name>'
+value-tag       =  '<value>' word '</value>'
+property-tag    =  '<property>' name-tag value-tag '</property>'
+properties-tag  =  '<properties>' *property-tag '</properties>'
 
-input-tag         =   '<input>' properties-tag '</input>'
-output-tag        =   '<output>' properties-tag '</output>'
-job-tag           =   '<job>' 1*input-tag 1*output-tag '</job>'
+input-tag       =  '<input>' properties-tag '</input>'
+output-tag      =  '<output>' properties-tag '</output>'
+job-tag         =  '<job>' 1*input-tag 1*output-tag '</job>'
 
-foo-tag           =   '<foo' attrs '>' xml '</foo>' / '<foo' attrs '/>'
-bar-tag           =   '<bar' attrs '>' xml '</bar>' / '<bar' attrs '/>'
-baz-tag           =   '<baz' attrs '>' xml '</baz>' / '<baz' attrs '/>'
-xml-body          =   foo-tag / bar-tag / baz-tag / job-tag
-xml               =   *xml-body
+foo-tag         =  '<foo' attrs '>' xml '</foo>' / '<foo' attrs '/>'
+bar-tag         =  '<bar' attrs '>' xml '</bar>' / '<bar' attrs '/>'
+baz-tag         =  '<baz' attrs '>' xml '</baz>' / '<baz' attrs '/>'
+xml-body        =  foo-tag / bar-tag / baz-tag / job-tag
+xml             =  *xml-body

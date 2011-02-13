@@ -1,15 +1,15 @@
 
-int-const               = 1*DIGIT / '0x' 1*HEXDIG
+int-const          =  1*DIGIT / '0x' 1*HEXDIG
 
-char-const              = "'" VCHAR "'"
+char-const         =  "'" VCHAR "'"
 
-float-const             = 1*DIGIT [ '.' 1*DIGIT ]
+float-const        =  1*DIGIT [ '.' 1*DIGIT ]
 
-id-char                 = ALPHA / DIGIT / '_'
+id-char            =  ALPHA / DIGIT / '_'
 
-id                      = ( ALPHA / '_' ) *id-char 
+id                 =  ( ALPHA / '_' ) *id-char 
 
-string                  = DQUOTE *ALPHA DQUOTE
+string             =  DQUOTE *ALPHA DQUOTE
 
-enumeration-const       = id
+enumeration-const  =  id
 

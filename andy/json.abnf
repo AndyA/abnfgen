@@ -1,0 +1,22 @@
+word-char   =  %x61-7A
+word        =  1*{5}10word-char
+sentence    =  word *{5}( ' ' word ) '. '
+paragraph   =  1*sentence
+text        =  paragraph *( LF LF paragraph )
+
+key         =  DQUOTE word DQUOTE 
+
+escape      =  '\"' / '\n'
+safe-char   =  %x20-21 / %x23-5b / %x5d-7e
+string      =  DQUOTE *safe-char DQUOTE
+
+posint      =  '0' / ( %x31-39 *DIGIT )
+number      =  [ '-' ] posint [ '.' 1*DIGIT ]
+
+atom        =  number / string
+value       =  json / atom
+sequence    =  '[' value *( ', ' value ) ']'
+key-value   =  key ': ' value
+dictionary  =  '{' key-value *( ', ' key-value ) '}'
+
+json        =  sequence / dictionary
