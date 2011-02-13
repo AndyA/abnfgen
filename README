@@ -1,0 +1,22 @@
+This is abnfgen, an ABNF-grammar based test case generator.
+
+ABNF -- Advanced Backus Naur Form -- is a grammar format used in
+many protocol specifications.  It is described in RFC 4234.
+ABNF looks like this:
+	
+	coin = "heads" / "tails"    ; one of two outcomes
+
+Given an ABNF grammar, abnfgen generates files in a subdirectory.
+Each file is a (different) random document that complies with
+the grammar.
+
+Uses:
+  o With -l, checking an ABNF grammar for syntactical correctness.
+
+  o Generating sample documents that illustrate a grammar -
+    "Is this what you meant?"
+
+  o Generating test cases for tools that are supposed
+    to parse the grammar.
+
+For updates, see <http://www.quut.com/abnfgen>.

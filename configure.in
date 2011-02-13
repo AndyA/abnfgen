@@ -1,0 +1,5 @@
+AC_INIT(abnfgen.c)
+AM_INIT_AUTOMAKE(abnfgen,0.16)
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_OUTPUT(Makefile)
