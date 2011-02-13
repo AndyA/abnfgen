@@ -1,0 +1,7 @@
+; English, innit
+
+desire    =  ' want a' / ' would like a' / ' have to have a' / ' need a'
+object    =  ' pony' / ' car' / ' computer' / ' house in the country' / ' iPod'
+person    =  'I' / 'You'
+sentence  =  person desire object '.' LF
+speech    =  1*{10}sentence

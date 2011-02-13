@@ -1,0 +1,5 @@
+name     =  [ 'Mr ' ] ( 'Andy' / 'Andrew' ) ( ' Ian Archie' / ' IA' / '' ) ' Armstrong'
+email    =  'andy@hexten.net' / 'overwater@me.com' / 'andya@apache.org' / 'andy.armstrong@bbc.co.uk'
+url      =  'http://hexten.net/' / 'http://www.bbc.co.uk/'
+company  =  'Hexten' / 'BBC'
+sig      =  '-- ' LF name [ ', ' email ] [ ', ' company ] [ ', ' url ] LF

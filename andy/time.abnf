@@ -1,0 +1,5 @@
+sixty  =  ( '0' / '1' / '2' / '3' / '4' / '5' ) DIGIT
+hour   =  '0' DIGIT / '1' DIGIT / '2' ( '0' / '1' / '2' / '3' )
+time   =  hour ':' sixty ':' sixty LF
+
+
