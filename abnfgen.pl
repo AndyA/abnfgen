@@ -20,7 +20,8 @@ def letter    => opt( \'lc_letter', \'uc_letter' );
 def var_char  => opt( [ 26, \'letter' ], [ 10, \'digit' ] );
 def var_name => \'letter', rep( \'var_char', 0, 3 );
 def digit => opt( '0' .. '9' );
-def number => rep( \'digit', 1, 10 );
+def one_to_nine => opt( '1' .. '9' );
+def number => opt( '0', seq( \'one_to_nine', rep( \'digit', 0, 9 ) ) );
 def assign => opt( 'LET ', '' ), \'var_name', ' = ', \'expr';
 def
  for_stmt => 'FOR ',
