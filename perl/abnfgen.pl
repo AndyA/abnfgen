@@ -5,11 +5,12 @@ use warnings;
 
 use Test::BNFGen qw( :all );
 
+def lc_letter => opt( 'a' .. 'z' );
+def uc_letter => opt( 'A' .. 'Z' );
+def letter    => opt( \'lc_letter', \'uc_letter' );
+def word      => rep( \'lc_letter', 1, 20, 3 );
+
 with_rules basic => sub {
-  def lc_letter => opt( 'a' .. 'z' );
-  def uc_letter => opt( 'A' .. 'Z' );
-  def letter    => opt( \'lc_letter', \'uc_letter' );
-  def word      => rep( \'lc_letter', 1, 20, 3 );
   def
    sentence => seq( \'uc_letter', \'word' ),
    rep( seq( ' ', \'word' ), 0, 10, 3 ), '.';
@@ -43,11 +44,6 @@ with_rules basic => sub {
 };
 
 with_rules xml => sub {
-  def lc_letter => opt( 'a' .. 'z' );
-  def uc_letter => opt( 'A' .. 'Z' );
-  def letter    => opt( \'lc_letter', \'uc_letter' );
-  def word      => rep( \'lc_letter', 1, 20, 3 );
-
   def body => rep( \'xml', 0, 10, 2 );
   def attr => ' ', \'word', '="', \'word', '"';
   def attrs => rep( \'attr', 0, 5, 2 );

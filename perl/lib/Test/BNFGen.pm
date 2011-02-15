@@ -22,7 +22,7 @@ our %EXPORT_TAGS = ( all => \@EXPORT_OK, );
 
 use constant MAX_DEPTH => 10;
 
-our $Namespace = '.default';
+our @Search = '.default';
 my %Rule = ();
 
 =head1 NAME
@@ -45,13 +45,15 @@ Test::BNFGen - Generate random data complying with BNF style syntaxes
 
 sub with_rules($&) {
   my ( $ns, $cb ) = @_;
-  local $Namespace = $ns;
-  $cb->();
+  unshift @Search, $ns;
+  my $rc = $cb->();
+  shift @Search;
+  return $rc;
 }
 
 sub def(@) {
   my ( $name, @code ) = @_;
-  $Rule{$Namespace}{$name} = seq( @code );
+  $Rule{ $Search[0] }{$name} = seq( @code );
 }
 
 sub ci($) {
@@ -78,9 +80,9 @@ sub context($@) {
   my %bind  = %$ctx;
   my %stash = ();
   return sub {
-    local @{ $Rule{$Namespace} }{ keys %bind };
+    local @{ $Rule{ $Search[0] } }{ keys %bind };
     while ( my ( $k, $v ) = each %bind ) {
-      $Rule{$Namespace}{$k} = opt( $v->() );
+      $Rule{ $Search[0] }{$k} = opt( $v->() );
     }
     return seq( @seq )->();
    }
@@ -190,7 +192,12 @@ sub rep(@) {
 sub rule(@) {
   my $name = shift;
   return sub {
-    ( $Rule{$Namespace}{$name} || die "Rule $name not defined\n" )->();
+    for my $ns ( @Search ) {
+      if ( my $r = $Rule{$ns}{$name} ) {
+        return $r->();
+      }
+    }
+    die "Rule $name not defined\n";
   };
 }
 
