@@ -5,7 +5,7 @@ use warnings;
 
 use Test::BNFGen qw( :all );
 
-if ( 0 ) {
+with_rules basic => sub {
   def lc_letter => opt( 'a' .. 'z' );
   def uc_letter => opt( 'A' .. 'Z' );
   def letter    => opt( \'lc_letter', \'uc_letter' );
@@ -40,10 +40,9 @@ if ( 0 ) {
   def program => rep( \'line', 0, 8 );
 
   print rule( 'program' )->();
-  print rule( 'sentence' )->(), "\n";
-}
+};
 
-if ( 1 ) {
+with_rules xml => sub {
   def lc_letter => opt( 'a' .. 'z' );
   def uc_letter => opt( 'A' .. 'Z' );
   def letter    => opt( \'lc_letter', \'uc_letter' );
@@ -71,6 +70,6 @@ if ( 1 ) {
   );
 
   print rule( 'xml' )->(), "\n";
-}
+};
 
 # vim:ts=2:sw=2:sts=2:et:ft=perl

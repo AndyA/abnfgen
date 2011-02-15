@@ -15,13 +15,14 @@ use Scalar::Util qw( refaddr );
 use base qw( Exporter );
 
 our @EXPORT_OK = qw(
- ci const context def opt rep rule seq
+ ci const context def opt rep rule seq with_rules
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK, );
 
 use constant MAX_DEPTH => 10;
 
+our $Namespace = '.default';
 my %Rule = ();
 
 =head1 NAME
@@ -42,9 +43,15 @@ Test::BNFGen - Generate random data complying with BNF style syntaxes
 #   * a coderef         - the action is invoked and its return value
 #                         used
 
+sub with_rules($&) {
+  my ( $ns, $cb ) = @_;
+  local $Namespace = $ns;
+  $cb->();
+}
+
 sub def(@) {
   my ( $name, @code ) = @_;
-  $Rule{$name} = seq( @code );
+  $Rule{$Namespace}{$name} = seq( @code );
 }
 
 sub ci($) {
@@ -71,9 +78,9 @@ sub context($@) {
   my %bind  = %$ctx;
   my %stash = ();
   return sub {
-    local @Rule{ keys %bind };
+    local @{ $Rule{$Namespace} }{ keys %bind };
     while ( my ( $k, $v ) = each %bind ) {
-      $Rule{$k} = opt( $v->() );
+      $Rule{$Namespace}{$k} = opt( $v->() );
     }
     return seq( @seq )->();
    }
@@ -101,6 +108,7 @@ sub _limit($) {
 }
 
 sub norm($);
+
 sub norm($) {
   my $opt = shift;
   return norm( [ 1, $opt ] ) unless 'ARRAY' eq ref $opt;
@@ -182,7 +190,7 @@ sub rep(@) {
 sub rule(@) {
   my $name = shift;
   return sub {
-    ( $Rule{$name} || die "Rule $name not defined\n" )->();
+    ( $Rule{$Namespace}{$name} || die "Rule $name not defined\n" )->();
   };
 }
 
