@@ -183,14 +183,32 @@ sub opt {
   die "No options to switch between" if @opt == 0;
   return $opt[0][1] if @opt == 1;
 
-  my $prob = sum( map { $_->[0] } @opt );
-  if ( $prob < MAX_LIN_PROB ) {
-    my @flat = map { ( $_->[1] ) x $_->[0] } @opt;
-    return sub { $flat[ rand $prob ]->() };
+  my @pick   = ();
+  my $last_p = 0;
+  for my $opt ( @opt ) {
+    push @pick, [ $last_p, $opt->[1] ];
+    $last_p += $opt->[0];
   }
-  else {
-    die "Oops!\n";
-  }
+
+  push @pick, [ $last_p, sub { die "Sentinel" } ];
+
+  return sub {
+    my $slot = rand $last_p;
+    my ( $lo, $hi ) = ( 0, $#pick );
+    while ( $lo < $hi ) {
+      my $mid = int( ( $lo + $hi ) / 2 );
+      if ( $slot < $pick[$mid][0] ) {
+        $hi = $mid;
+      }
+      elsif ( $slot >= $pick[ $mid + 1 ][0] ) {
+        $lo = $mid + 1;
+      }
+      else {
+        return $pick[$mid][1]->();
+      }
+    }
+    die "Can't find $slot. Shouldn't happen.";
+  };
 }
 
 sub seq {
