@@ -68,4 +68,11 @@ with_rules xml => sub {
   print rule( 'xml' )->(), "\n";
 };
 
+std_abnf();
+with_rules foo => sub {
+  using( 'std_abnf' );
+  def word => rep( \'ALPHA', 1, 20, 3 );
+  print rule( 'word' )->(), "\n";
+};
+
 # vim:ts=2:sw=2:sts=2:et:ft=perl
