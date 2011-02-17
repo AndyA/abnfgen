@@ -15,7 +15,7 @@ use Scalar::Util qw( refaddr );
 use base qw( Exporter );
 
 our @EXPORT_OK = qw(
- ci const context def opt rep rule seq with_rules
+ ci const context def opt rep rule seq with_rules using std_abnf
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK, );
@@ -42,14 +42,6 @@ Test::BNFGen - Generate random data complying with BNF style syntaxes
 #   * a scalar          - the action returns that value
 #   * a coderef         - the action is invoked and its return value
 #                         used
-
-sub with_rules($&) {
-  my ( $ns, $cb ) = @_;
-  unshift @Search, $ns;
-  my $rc = $cb->();
-  shift @Search;
-  return $rc;
-}
 
 sub def(@) {
   my ( $name, @code ) = @_;
@@ -198,6 +190,38 @@ sub rule(@) {
       }
     }
     die "Rule $name not defined\n";
+  };
+}
+
+sub with_rules($&) {
+  my ( $ns, $cb ) = @_;
+  local @Search = ( $ns, @Search );
+  my $rc = $cb->();
+  return $rc;
+}
+
+sub using(@) { splice @Search, 1, 0, @_ }
+
+sub std_abnf {
+  my $ns = shift;
+  $ns = 'std_abnf' unless defined $ns;
+  with_rules $ns => sub {
+    def ALPHA => opt( 'A' .. 'Z', 'a' .. 'z' );
+    def DIGIT => opt( '0' .. '9' );
+    def HEXDIG => opt( 'A' .. 'F', 'a' .. 'f', \'DIGIT' );
+    def DQUOTE => '"';
+    def SP     => " ";
+    def HTAB   => "\t";
+    def WSP => opt( \'SP', \'HTAB' );
+    def LWSP => rep( opt( \'WSP', seq( \'CRLF', \'WSP' ) ), 1, 2**31 );
+    def VCHAR => opt( "\x21" .. "\x7e" );
+    def CHAR  => opt( "\x01" .. "\x7f" );
+    def OCTET => opt( "\x00" .. "\xff" );
+    def CTL   => opt( "\x00" .. "\x1f", "\x7f" );
+    def CR    => "\r";
+    def LF    => "\n";
+    def CRLF  => "\r\n";
+    def BIT   => opt( '0', '1' );
   };
 }
 
